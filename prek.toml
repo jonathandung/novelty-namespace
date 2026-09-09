@@ -1,0 +1,24 @@
+[[repos]]
+repo = "builtin"
+hooks = [
+  {id = "check-added-large-files", args = ["--maxkb=80", "--enforce-all"], exclude = '^uv\.lock$'},
+  {id = "check-case-conflict"}, {id = "check-executables-have-shebangs"}, {id = "check-illegal-windows-names"},
+  {id = "check-json"}, {id = "check-merge-conflict"}, {id = "check-shebang-scripts-are-executable"}, {id = "check-toml"},
+  {id = "check-yaml"}, {id = "end-of-file-fixer"}, {id = "trailing-whitespace"},
+  {id = "file-contents-sorter", files = '^(\.github/CODEOWNERS|assets/words\.txt|\..*ignore)$'}
+]
+
+[[repos]]
+repo = "https://github.com/abravalheri/validate-pyproject"
+rev = "0.26"
+hooks = [{id = "validate-pyproject"}]
+
+[[repos]]
+repo = "https://github.com/betterleaks/betterleaks"
+rev = "v1.8.1"
+hooks = [{id = "betterleaks"}]
+
+[[repos]]
+repo = "https://github.com/sphinx-contrib/sphinx-lint"
+rev = "v1.0.2"
+hooks = [{id = "sphinx-lint"}]

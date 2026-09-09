@@ -1,0 +1,25 @@
+name: Purge AI-generated PRs
+on:
+  pull_request:
+    types: [labeled]
+permissions:
+  pull-requests: write
+jobs:
+  close:
+    if: github.event.label.name == 'ai-slop'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+        with:
+          script: |
+            const c = context.repo, n = context.issue.number, r = github.rest;
+            const i = r.issues, d = {...c, issue_number: n};
+            await r.issues.createComment({
+                ...d, body: `We do not tolerate pulls consisting of large volumes of obviously generated content.
+                Therefore, we are closing this PR and locking further activity.
+                If you think this closure was a mistake, [escalate by email](mailto:jonathandung@yahoo.com).
+                Our [AI Usage Policy](https://github.com/jonathandung/.github/blob/main/AI_USAGE_POLICY.md) details why this is unacceptable.`
+            });
+            await r.pulls.update({...c, pull_number: n, state: 'closed'});
+            await i.lock({...d, lock_reason: 'spam'});
+    timeout-minutes: 1

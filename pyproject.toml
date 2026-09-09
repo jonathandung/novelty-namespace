@@ -1,0 +1,35 @@
+[build-system]
+build-backend = "uv_build"
+requires = ["uv_build>=0.12.10"]
+
+[dependency-groups]
+
+[project]
+authors = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
+classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3"]
+license = "MIT"
+license-files = ["AUTHORS.md", "LICENSE"]
+maintainers = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
+name = "novelty-namespace"
+readme = "README.md"
+version = "0.1.0"
+
+[tool.ruff]
+required-version = ">=0.16.6"
+
+[tool.ruff.lint]
+ignore = ["missing-whitespace-around-arithmetic-operator", "missing-whitespace-around-bitwise-or-shift-operator", "missing-whitespace-around-parameter-equals", "multi-line-summary-second-line", "no-blank-line-before-class", "too-few-spaces-before-inline-comment", "blank-line-between-methods", "blank-lines-top-level", "blank-lines-after-function-or-class", "blank-lines-before-nested-definition", "line-too-long", "multiple-statements-on-one-line-colon", "multiple-statements-on-one-line-semicolon", "ambiguous-variable-name", "non-ascii-name", "non-ascii-import-name", "docstring-in-stub", "mutable-class-default", "non-empty-init-module", "raise-vanilla-args"]
+preview = true
+select = ["ALL"]
+typing-extensions = false
+
+[tool.ruff.lint.per-file-ignores]
+"*.py" = ["ANN", "undocumented-magic-method", "undocumented-public-class"]
+"docs/source/conf.py" = ["implicit-namespace-package"]
+
+[tool.uv]
+required-version = ">=0.12.10"
+
+[tool.uv.build-backend]
+module-name = "novelty-namespace"
+module-root = ""

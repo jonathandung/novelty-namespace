@@ -1,0 +1,49 @@
+name: Manage stale issues and pull requests
+on:
+  schedule: [{cron: "0 0 * * *"}]
+  workflow_dispatch:
+permissions:
+  discussions: write
+  issues: write
+  pull-requests: write
+jobs:
+  stale:
+    permissions:
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93
+      with:
+        days-before-issue-close: 14
+        days-before-issue-stale: 28
+        days-before-pr-close: 14
+        days-before-pr-stale: 28
+        exempt-all-milestones: true
+        exempt-draft-pr: true
+        exempt-issue-labels: need-help,pinned
+        exempt-pr-labels: need-help
+        stale-issue-label: stale
+        stale-issue-message: This issue has been marked as stale due to inactivity.
+        stale-pr-label: stale
+        stale-pr-message: This pull request has been marked as stale due to inactivity.
+    timeout-minutes: 3
+  lock:
+    permissions:
+      discussions: write
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    concurrency:
+      group: lock
+    steps: # cspell:disable-next-line
+      - uses: dessant/lock-threads@89ae32b08ed1a541efecbab17912962a5e38981c
+        with:
+          discussion-inactive-days: 180
+          discussion-comment: This discussion thread has been automatically locked due to inactivity. For a related topic, please start a new discussion and refer to relevant comments here.
+          issue-inactive-days: 135
+          issue-comment: This issue thread has been automatically locked due to inactivity. For a related bug, please file a new issue and link to relevant comments here.
+          log-output: true
+          pr-inactive-days: 90
+          pr-comment: This pull request thread has been automatically locked due to inactivity. For a related enhancement, please file a new issue or open another PR and link to relevant comments here.
+    timeout-minutes: 3

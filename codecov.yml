@@ -1,0 +1,1 @@
+coverage: {round: nearest, patch: {default: {threshold: 1%}}, status: {project: {default: {threshold: 1%}}}}

@@ -1,0 +1,27 @@
+name: Update prek hooks
+on:
+  schedule: [{cron: "0 0 * * 1"}]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # zizmor: ignore[artipacked]
+      - uses: taiki-e/install-action@742a3317eac7bd62f91cd888b4eead5e784ba833
+        with:
+          tool: prek
+      - run: prek update
+      - run: prek run --all-files
+      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
+        with:
+          assignees: jonathandung
+          branch: prek
+          commit-message: update prek hooks
+          delete-branch: true
+          sign-commits: true
+          signoff: true
+          title: Weekly prek hooks update
+    timeout-minutes: 3

@@ -1,0 +1,17 @@
+version: 2
+sphinx:
+  configuration: docs/source/conf.py
+  fail_on_warning: true
+build:
+  os: ubuntu-26.04
+  tools:
+    python: latest
+  jobs:
+    post_create_environment:
+      - python3 -m pip install -U pip
+      - python3 -m pip install furo -e .
+      - python3 -m pip install --group docs
+      - scripts/generate.sh
+formats:
+  - htmlzip
+  - pdf

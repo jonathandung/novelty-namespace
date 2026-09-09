@@ -1,0 +1,24 @@
+name: Purge AI-generated issues
+on:
+  issues:
+    types: [labeled]
+permissions:
+  issues: write
+jobs:
+  close:
+    if: github.event.label.name == 'ai-slop'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+        with:
+          script: |
+            const c = {...context.repo, issue_number: context.issue.number}, i = github.rest.issues;
+            await i.createComment({
+              ...c, body: `We do not condone abusing AI to communicate with reviewers and effectively wasting their efforts.
+              Therefore, we are closing this ticket and locking further activity.
+              If you think this closure was a mistake, [escalate by email](mailto:jonathandung@yahoo.com).
+              Our [AI Usage Policy](https://github.com/jonathandung/.github/blob/main/AI_USAGE_POLICY.md) details why this is unacceptable.`
+            });
+            await i.update({...c, state: 'closed', state_reason: 'not_planned'});
+            await i.lock({...c, lock_reason: 'spam'});
+    timeout-minutes: 1
