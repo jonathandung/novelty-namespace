@@ -15,7 +15,7 @@ hooks = [{id = "validate-pyproject"}]
 
 [[repos]]
 repo = "https://github.com/betterleaks/betterleaks"
-rev = "v1.8.1"
+rev = "v2.0.0-rc.1"
 hooks = [{id = "betterleaks"}]
 
 [[repos]]
