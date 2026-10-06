@@ -1,0 +1,39 @@
+name: CI
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  primary:
+    permissions:
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+        ref: ${{github.event.pull_request.head.sha || github.sha}}
+    - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+      with:
+        enable-cache: false
+    - run: uvx ruff check --output-format github
+    - run: uvx ty check --output-format github
+    - uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff
+      with:
+        globs: |
+          *.md
+          .github/**/*.md
+    - uses: streetsidesoftware/cspell-action@e0668cf020899e887ee8ad4d173c31738a79eae8
+      with:
+        config: cspell.json
+        incremental_files_only: true
+    - run: uv audit --preview-features audit-command
+    - uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054
+    timeout-minutes: 3

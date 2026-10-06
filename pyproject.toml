@@ -12,6 +12,7 @@ license-files = ["AUTHORS.md", "LICENSE"]
 maintainers = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
 name = "novelty-namespace"
 readme = "README.md"
+requires-python = ">=3.12"
 version = "0.1.0"
 
 [tool.ruff]
