@@ -20,7 +20,7 @@ jobs:
       with:
         persist-credentials: false
         ref: ${{github.event.pull_request.head.sha || github.sha}}
-    - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+    - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
       with:
         enable-cache: false
     - run: uvx ruff check --output-format github
@@ -30,10 +30,10 @@ jobs:
         globs: |
           *.md
           .github/**/*.md
-    - uses: streetsidesoftware/cspell-action@e0668cf020899e887ee8ad4d173c31738a79eae8
+    - uses: streetsidesoftware/cspell-action@6f3c77c1406bc930f944ba97e9801a22e42caf58
       with:
         config: cspell.json
         incremental_files_only: true
     - run: uv audit --preview-features audit-command
-    - uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054
+    - uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482
     timeout-minutes: 3

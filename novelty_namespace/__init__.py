@@ -1,6 +1,7 @@
 # Copyright (c) 2026 Jonathan Dung
 # All rights reserved.
-"""Provides a metaclass for creating self-contained namespaces with inheritance support."""
+"""Create self-contained namespaces with inheritance support."""
+
 import types
 from contextlib import suppress
 
@@ -18,6 +19,7 @@ class NamespaceMeta(type):
 
 
 __reg = {}
+
 
 class _Namespace:
     def __init__(self, *a):

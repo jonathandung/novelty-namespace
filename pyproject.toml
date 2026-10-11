@@ -1,8 +1,6 @@
 [build-system]
 build-backend = "uv_build"
-requires = ["uv_build>=0.12.11"]
-
-[dependency-groups]
+requires = ["uv_build>=0.13.3"]
 
 [project]
 authors = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
@@ -16,10 +14,10 @@ requires-python = ">=3.12"
 version = "0.1.0"
 
 [tool.ruff]
-required-version = ">=0.16.6"
+required-version = ">=0.17.1"
 
 [tool.ruff.lint]
-ignore = ["missing-whitespace-around-arithmetic-operator", "missing-whitespace-around-bitwise-or-shift-operator", "missing-whitespace-around-parameter-equals", "multi-line-summary-second-line", "blank-line-before-class", "too-few-spaces-before-inline-comment", "blank-line-between-methods", "blank-lines-top-level", "blank-lines-after-function-or-class", "blank-lines-before-nested-definition", "line-too-long", "multiple-statements-on-one-line-colon", "multiple-statements-on-one-line-semicolon", "ambiguous-variable-name", "non-ascii-name", "non-ascii-import-name", "docstring-in-stub", "mutable-class-default", "non-empty-init-module", "raise-vanilla-args"]
+ignore = ["blank-line-before-class", "incorrect-blank-line-before-class", "missing-trailing-comma", "multi-line-summary-second-line", "non-empty-init-module"]
 preview = true
 select = ["ALL"]
 typing-extensions = false
@@ -36,7 +34,7 @@ all = "error"
 missing-override-decorator = "ignore"
 
 [tool.uv]
-required-version = ">=0.12.11"
+required-version = ">=0.13.3"
 
 [tool.uv.build-backend]
 module-name = "novelty_namespace"
