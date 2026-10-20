@@ -10,12 +10,12 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/abravalheri/validate-pyproject"
-rev = "0.26"
+rev = "v0.27"
 hooks = [{id = "validate-pyproject"}]
 
 [[repos]]
 repo = "https://github.com/betterleaks/betterleaks"
-rev = "v2.0.0-rc.2"
+rev = "v2.0.0-rc.4"
 hooks = [{id = "betterleaks"}]
 
 [[repos]]

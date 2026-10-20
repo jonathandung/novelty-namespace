@@ -1,5 +1,3 @@
-!.vscode/extensions.json
-!.vscode/settings.json
 *.cache
 *.cover
 *.egg
@@ -20,11 +18,7 @@
 .cspellcache
 .eggs/
 .env*
-.prek-stamp
-.python-version
-.uv-stamp
 .venv/
-.vscode/
 ENV/
 __pycache__/
 __pypackages__/

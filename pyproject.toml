@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "uv_build"
-requires = ["uv_build>=0.13.3"]
+requires = ["uv_build>=0.13.5"]
 
 [project]
 authors = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
@@ -34,7 +34,8 @@ all = "error"
 missing-override-decorator = "ignore"
 
 [tool.uv]
-required-version = ">=0.13.3"
+preview = true
+required-version = ">=0.13.5"
 
 [tool.uv.build-backend]
 module-name = "novelty_namespace"
