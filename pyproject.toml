@@ -1,29 +1,29 @@
 [build-system]
 build-backend = "uv_build"
-requires = ["uv_build>=0.13.5"]
+requires = ["uv_build>=0.13.7"]
 
 [project]
 authors = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
-classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3"]
+classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only", "Programming Language :: Python :: 3.15", "Programming Language :: Python :: 3.16", "Programming Language :: Python :: Free Threading :: 1 - Unstable"]
 license = "MIT"
 license-files = ["AUTHORS.md", "LICENSE"]
 maintainers = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
 name = "novelty-namespace"
 readme = "README.md"
-requires-python = ">=3.12"
-version = "0.1.0"
+requires-python = ">=3.15"
+version = "0.2.0"
 
 [tool.ruff]
-required-version = ">=0.17.1"
+required-version = ">=0.17.4"
 
 [tool.ruff.lint]
-ignore = ["blank-line-before-class", "incorrect-blank-line-before-class", "missing-trailing-comma", "multi-line-summary-second-line", "non-empty-init-module"]
+ignore = ["blank-line-before-class", "incorrect-blank-line-before-class", "invalid-class-name", "missing-trailing-comma", "multi-line-summary-second-line", "non-empty-init-module"]
 preview = true
 select = ["ALL"]
 typing-extensions = false
 
 [tool.ruff.lint.flake8-bugbear]
-extend-immutable-calls = ["contextlib.suppress"]
+extend-immutable-calls = ["contextlib.suppress", "__import__"]
 
 [tool.ruff.lint.per-file-ignores]
 "*.py" = ["ANN", "undocumented-magic-method", "undocumented-public-class"]
@@ -35,7 +35,7 @@ missing-override-decorator = "ignore"
 
 [tool.uv]
 preview = true
-required-version = ">=0.13.5"
+required-version = ">=0.13.7"
 
 [tool.uv.build-backend]
 module-name = "novelty_namespace"
