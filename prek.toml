@@ -15,7 +15,7 @@ hooks = [{id = "validate-pyproject"}]
 
 [[repos]]
 repo = "https://github.com/betterleaks/betterleaks"
-rev = "v1.10.0"
+rev = "v1.10.1"
 hooks = [{id = "betterleaks"}]
 
 [[repos]]
@@ -25,5 +25,5 @@ hooks = [{id = "sphinx-lint"}]
 
 [[repos]]
 repo = "https://github.com/jonathandung/check-empty"
-rev = "v4.1.0"
+rev = "v4.1.1"
 hooks = [{id = "check-empty", files = '^novelty_namespace/py\.typed$'}]

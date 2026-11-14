@@ -9,6 +9,7 @@ __all__ = (
     "FrozenNamespaceError",
     "FrozenNamespaceMeta",
     "ModuleMeta",
+    "Namespace",
     "NamespaceMeta",
     "extract_dict",
     "get_name",
@@ -136,16 +137,25 @@ def extract_dict(ns: Namespace, *, writethrough: bool = False):
     Args:
       ns: The namespace to extract the dictionary from.
       writethrough:
-        If True, the returned dictionary will be a reference to the
+        False by default. If True, the returned dictionary will be a reference to the
         internal dictionary of the namespace; otherwise, a copy of the internal
-        dictionary will be returned, which is the default behaviour.
+        dictionary will be returned.
 
     Returns:
         A dictionary representing the members of the namespace.
 
+    Raises:
+        FrozenNamespaceError:
+          When writethrough=True is specified and ns is a frozen namespace, the
+          attributes of which are not writeable by design (enforced using frozendict).
+
     """
     d = _[id(ns)][2]
-    return d if writethrough else d.copy()
+    if not writethrough:
+        return d.copy()
+    if ns.__hash__ is None:
+        return d
+    raise FrozenNamespaceError
 
 
 def get_name(ns: Namespace, *, qualified: bool = True):
