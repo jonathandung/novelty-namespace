@@ -7,15 +7,11 @@ permissions:
   pull-requests: write
 jobs:
   update:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # zizmor: ignore[artipacked]
-      - uses: taiki-e/install-action@68a389c788b2cd04016ce8c80ee23b80d2ab3d68
-        with:
-          tool: prek
-      - run: prek update
-      - run: prek run --all-files
-      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
+      - run: brew update && brew install prek && prek update
+      - uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1
         with:
           assignees: jonathandung
           branch: prek
@@ -24,4 +20,4 @@ jobs:
           sign-commits: true
           signoff: true
           title: Weekly prek hooks update
-    timeout-minutes: 3
+    timeout-minutes: 1
