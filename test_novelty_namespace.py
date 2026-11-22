@@ -66,7 +66,7 @@ class TestInheritance(unittest.TestCase):
         class Base(metaclass=m.NamespaceMeta):
             inherited = "yes"
 
-        class Derived(Base, metaclass=m.NamespaceMeta):
+        class Derived(Base):
             own = "here"
 
         self.assertEqual(Derived.own, "here")
@@ -76,7 +76,7 @@ class TestInheritance(unittest.TestCase):
         class Base(metaclass=m.NamespaceMeta):
             val = "base"
 
-        class Derived(Base, metaclass=m.NamespaceMeta):
+        class Derived(Base):
             val = "derived"
 
         self.assertEqual(Derived.val, "derived")
@@ -88,7 +88,7 @@ class TestInheritance(unittest.TestCase):
         class B(metaclass=m.NamespaceMeta):
             name = "B"
 
-        class C(A, B, metaclass=m.NamespaceMeta):
+        class C(A, B):
             pass
 
         self.assertEqual(C.name, "A")
