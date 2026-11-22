@@ -26,14 +26,9 @@ jobs:
     - run: uvx ruff check --output-format github
     - run: uvx ty check --output-format github
     - uses: DavidAnson/markdownlint-cli2-action@696eb3f2509270d7b882d2aa68347bc676e7af34
-      with:
-        globs: |
-          *.md
-          .github/**/*.md
     - uses: streetsidesoftware/cspell-action@ce1816e4ce36532956ac6e983737392774b6e169
       with:
-        config: cspell.json
-        incremental_files_only: true
-    - run: uv audit --preview-features audit-command
+        config: .cspell.json
+    - run: uv audit
     - uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd
-    timeout-minutes: 3
+    timeout-minutes: 2

@@ -1,6 +1,8 @@
 artipacked
 betterleaks
 evans
+frozenmodule
+frozennamespace
 github
 htmlzip
 jonathandung

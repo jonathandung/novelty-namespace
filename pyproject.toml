@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "uv_build"
-requires = ["uv_build>=0.13.7"]
+requires = ["uv_build>=0.13.9"]
 
 [project]
 authors = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
@@ -11,13 +11,13 @@ maintainers = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
 name = "novelty-namespace"
 readme = "README.md"
 requires-python = ">=3.15"
-version = "0.2.0"
+version = "0.3.0"
 
 [tool.ruff]
-required-version = ">=0.17.4"
+required-version = ">=0.17.6"
 
 [tool.ruff.lint]
-ignore = ["blank-line-before-class", "incorrect-blank-line-before-class", "invalid-class-name", "missing-trailing-comma", "multi-line-summary-second-line", "non-empty-init-module"]
+ignore = ["blank-line-before-class", "incorrect-blank-line-before-class", "invalid-class-name", "missing-trailing-comma", "multi-line-summary-second-line", "non-empty-init-module", "PT"]
 preview = true
 select = ["ALL"]
 typing-extensions = false
@@ -27,15 +27,19 @@ extend-immutable-calls = ["contextlib.suppress", "__import__"]
 
 [tool.ruff.lint.per-file-ignores]
 "*.py" = ["ANN", "undocumented-magic-method", "undocumented-public-class"]
+"!novelty_namespace/__init__.py" = ["missing-copyright-notice"]
 "docs/source/conf.py" = ["implicit-namespace-package", "missing-copyright-notice", "undocumented-public-module", "undocumented-public-package"]
 
 [tool.ty.rules]
 all = "error"
 missing-override-decorator = "ignore"
 
+[tool.ty.src]
+include = ["novelty_namespace/"]
+
 [tool.uv]
 preview = true
-required-version = ">=0.13.7"
+required-version = ">=0.13.9"
 
 [tool.uv.build-backend]
 module-name = "novelty_namespace"

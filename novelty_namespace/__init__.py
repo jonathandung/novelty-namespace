@@ -15,9 +15,11 @@ __all__ = (
     "get_name",
 )
 _ = {}
-"""A private mapping from memory address of namespaces to a tuple of the form
-(name, bases, instance dictionary).
-"""
+"""A mapping from memory address of namespaces to their attributes and metadata."""
+TYPE_CHECKING = False
+if TYPE_CHECKING:
+    from typing import Any
+__version__ = "0.3.0"
 
 
 class FrozenNamespaceError(AttributeError):
@@ -25,7 +27,12 @@ class FrozenNamespaceError(AttributeError):
 
 
 class Namespace:
-    """The type of all namespaces or submodules created by this module."""
+    """The type of all namespaces or submodules created by this module.
+
+    .. note::
+      When using class syntax to subclass a namespace, do not specify any metaclass;
+      otherwise, you will get a :class:`TypeError`.
+    """
 
     def __init__(self, *a):
         """Initialize the namespace. Private; should never be called."""
@@ -49,7 +56,7 @@ class Namespace:
             _.pop(id(self), None)
 
 
-class frozen_namespace(Namespace):
+class frozennamespace(Namespace):
     def __setattr__(*_):
         raise FrozenNamespaceError
 
@@ -73,23 +80,32 @@ class a(Namespace):
         _[a[0]] = self  # ty: ignore[invalid-assignment]
 
 
-class frozen_module(a, frozen_namespace): ...
+class frozenmodule(a, frozennamespace): ...
 
 
 class module(a, namespace): ...
 
 
 def r(n):
-    m = "cannot subclass " + n
 
-    def _(c, /, **k):  # ruff: ignore[unused-function-argument]
+    def _(c, m="cannot subclass " + n, /, **k):  # ruff: ignore[unused-function-argument]
         raise TypeError(m)
 
     return classmethod(_)
 
 
 class B(type):
-    def __init_subclass__(cls, r=r, _=__import__("types").resolve_bases, /, *, t):
+    def __init_subclass__(
+        cls,
+        r=r,
+        _=__import__("types").resolve_bases,
+        u=lambda a, b, _=__import__("itertools").chain: frozendict(
+            _(a.items(), b.items())
+        ),
+        /,
+        *,
+        t,
+    ):
         def z(p, n, b, a, /, **k):
             if (c := k.pop("metaclass", p)) is not p:
                 x = f"{cls.__name__} is not compatible with {c.__qualname__}"
@@ -99,7 +115,7 @@ class B(type):
                 if (m := a.get("__module__")) is None or m == "__main__"
                 else f"{m}.{n}",
                 _(b),
-                a | k,
+                a | k if t.__hash__ is None else u(a, k),
             )
 
         cls.__new__, cls.__init_subclass__ = z, r(cls.__name__)
@@ -109,7 +125,7 @@ class NamespaceMeta(B, t=namespace):
     """Choose this metaclass to create a namespace using class syntax."""
 
 
-class FrozenNamespaceMeta(B, t=frozen_namespace):
+class FrozenNamespaceMeta(B, t=frozennamespace):
     """Choose this metaclass to create a frozen namespace using class syntax.
 
     Attributes on frozen namespaces are immutable.
@@ -124,14 +140,16 @@ class ModuleMeta(B, t=module):
     """
 
 
-class FrozenModuleMeta(B, t=frozen_module):
+class FrozenModuleMeta(B, t=frozenmodule):
     """Choose this metaclass to create a frozen submodule using class syntax.
 
     Attributes on frozen submodules are immutable.
     """
 
 
-def extract_dict(ns: Namespace, *, writethrough: bool = False):
+def extract_dict(
+    ns: Namespace, *, writethrough: bool = False
+) -> dict[str, Any] | frozendict[str, Any]:
     """Give a dictionary representing the members of the namespace.
 
     Args:
@@ -142,35 +160,37 @@ def extract_dict(ns: Namespace, *, writethrough: bool = False):
         dictionary will be returned.
 
     Returns:
-        A dictionary representing the members of the namespace.
+        A possibly frozen dictionary representing the members of the namespace.
 
     Raises:
         FrozenNamespaceError:
           When writethrough=True is specified and ns is a frozen namespace, the
-          attributes of which are not writeable by design (enforced using frozendict).
+          attributes of which are not writeable by design.
 
     """
     d = _[id(ns)][2]
     if not writethrough:
         return d.copy()
-    if ns.__hash__ is None:
+    if object.__getattribute__(ns, "__hash__") is None:  # ruff: ignore[unnecessary-dunder-call]
         return d
     raise FrozenNamespaceError
 
 
-def get_name(ns: Namespace, *, qualified: bool = True):
+def get_name(ns: Namespace, *, qualified: bool = True) -> str:
     """Return the name of the namespace passed.
 
     Args:
       ns: The namespace to get the name of.
-      qualified: Whether to return the qualified name. True by default.
+      qualified:
+        Whether to return the qualified name (i.e. including the module where it was
+        defined). True by default.
 
     Returns:
-      The name of the namespace.
+      The name as a string.
 
     """
     n = _[id(ns)][0]
-    return n if qualified else n.rpartition(".")[-1]
+    return n if qualified else n.rpartition(".")[-1]  # ty: ignore[unsound-return]
 
 
-del B, frozen_module, frozen_namespace, a, module, namespace, suppress, r
+del B, TYPE_CHECKING, frozenmodule, frozennamespace, a, module, namespace, suppress, r
