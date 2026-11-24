@@ -31,4 +31,5 @@ jobs:
         config: .cspell.json
     - run: uv audit
     - uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd
+    - run: uv run -m test_novelty_namespace
     timeout-minutes: 2
