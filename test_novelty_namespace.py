@@ -206,11 +206,13 @@ class TestAllExport(u.TestCase):
 
     def test_private_helpers_removed(self):
         for name in (
-            "B",
             "a",
+            "r",
             "module",
             "namespace",
             "frozennamespace",
             "frozenmodule",
+            "TYPE_CHECKING",
+            "suppress",
         ):
             self.assertFalse(hasattr(m, name), f"leaked private name: {name}")

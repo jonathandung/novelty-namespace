@@ -8,7 +8,7 @@ docs = ["furo==2025.12.19", "sphinx==9.2.0", "sphinx-copybutton==0.5.2", "sphinx
 
 [project]
 authors = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
-classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only", "Programming Language :: Python :: 3.15", "Programming Language :: Python :: 3.16", "Programming Language :: Python :: Free Threading :: 1 - Unstable"]
+classifiers = ["Development Status :: 4 - Beta", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only", "Programming Language :: Python :: 3.15", "Programming Language :: Python :: 3.16", "Programming Language :: Python :: Free Threading :: 2 - Beta"]
 license = "MIT"
 license-files = ["AUTHORS.md", "LICENSE"]
 maintainers = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]

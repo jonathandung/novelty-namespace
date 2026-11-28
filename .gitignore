@@ -25,7 +25,6 @@ __pypackages__/
 build/
 coverage.xml
 dist/
-docs/source/api/
 eggs/
 env/
 htmlcov/
