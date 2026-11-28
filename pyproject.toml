@@ -14,7 +14,7 @@ license-files = ["AUTHORS.md", "LICENSE"]
 maintainers = [{name = "Jonathan Dung", email = "jonathandung@yahoo.com"}]
 name = "novelty-namespace"
 readme = "README.md"
-requires-python = ">=3.15"
+requires-python = ">=3.13"
 version = "0.4.0"
 
 [tool.esbonio.sphinx]
@@ -24,7 +24,7 @@ pythonCommand = ["${venv:.venv}"]
 required-version = ">=0.17.6"
 
 [tool.ruff.lint]
-ignore = ["blank-line-before-class", "incorrect-blank-line-before-class", "invalid-class-name", "missing-trailing-comma", "multi-line-summary-second-line", "non-empty-init-module", "PT"]
+ignore = ["blank-line-before-class", "incorrect-blank-line-before-class", "invalid-class-name", "missing-trailing-comma", "multi-line-summary-second-line", "non-empty-init-module", "undefined-name", "PT"]
 preview = true
 select = ["ALL"]
 typing-extensions = false

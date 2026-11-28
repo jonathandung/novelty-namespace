@@ -188,7 +188,8 @@ class TestExtractDict(u.TestCase):
 
         d = m.extract_dict(F)
         self.assertEqual(d["a"], 1)
-        self.assertIsInstance(d, frozendict)
+        if sys.version_info >= (3, 15):
+            self.assertIsInstance(d, frozendict)
 
 
 class TestGetName(u.TestCase):
@@ -213,6 +214,6 @@ class TestAllExport(u.TestCase):
             "frozennamespace",
             "frozenmodule",
             "TYPE_CHECKING",
-            "suppress",
+            "annotations",
         ):
             self.assertFalse(hasattr(m, name), f"leaked private name: {name}")

@@ -2,7 +2,17 @@
 # All rights reserved.
 """Create self-contained namespaces with inheritance support."""
 
-from contextlib import suppress
+from __future__ import annotations
+
+PY315 = __import__("sys").version_info >= (3, 15)
+TYPE_CHECKING = False
+if TYPE_CHECKING:
+    from typing import Any
+
+    if PY315:
+        type DICT = dict[str, Any] | frozendict[str, Any]
+    else:
+        type DICT = dict[str, Any]
 
 __all__ = (
     "FrozenModuleMeta",
@@ -17,9 +27,7 @@ __all__ = (
 )
 _ = {}
 """A mapping from memory address of namespaces to their attributes and metadata."""
-TYPE_CHECKING = False
-if TYPE_CHECKING:
-    from typing import Any
+
 __version__ = "0.4.0"
 
 
@@ -39,13 +47,17 @@ class Namespace:
         """Initialize the namespace. Private; should never be called."""
         _[id(self)] = a
 
-    def __getattribute__(self, n, a=suppress(AttributeError), b=suppress(KeyError), /):
+    def __getattribute__(self, n, /):
         r = _[id(self)]
-        with b:
+        try:
             return r[2][n]
+        except KeyError:
+            ...
         for c in r[1]:
-            with a:
+            try:
                 return getattr(c, n)
+            except AttributeError:
+                ...
         raise AttributeError(n)
 
     def __repr__(self):
@@ -102,9 +114,13 @@ class NamespaceMetaBase(type):
         cls,
         r=r,
         f=__import__("types").resolve_bases,
-        u=lambda a, b, _=__import__("itertools").chain: frozendict(
-            _(a.items(), b.items())
-        ),
+        u=(
+            lambda a, b, _=__import__("itertools").chain: frozendict(
+                _(a.items(), b.items())
+            )
+        )
+        if PY315
+        else dict.__or__,
         /,
         *,
         t,
@@ -128,7 +144,8 @@ class NamespaceMeta(NamespaceMetaBase, t=namespace):
 class FrozenNamespaceMeta(NamespaceMetaBase, t=frozennamespace):
     """Choose this metaclass to create a frozen namespace using class syntax.
 
-    Attributes on frozen namespaces are immutable.
+    Attributes on frozen namespaces are immutable. Attempting to set or delete any
+    attributes will raise :exc:`FrozenNamespaceError`.
     """
 
 
@@ -147,9 +164,7 @@ class FrozenModuleMeta(NamespaceMetaBase, t=frozenmodule):
     """
 
 
-def extract_dict(
-    ns: Namespace, *, writethrough: bool = False
-) -> dict[str, Any] | frozendict[str, Any]:
+def extract_dict(ns: Namespace, *, writethrough: bool = False) -> DICT:
     """Give a dictionary representing the members of the namespace.
 
     Args:
@@ -160,7 +175,7 @@ def extract_dict(
         dictionary will be returned.
 
     Returns:
-        A possibly frozen dictionary representing the members of the namespace.
+        A possibly frozen dictionary containing the members of the namespace.
 
     Raises:
         FrozenNamespaceError:
@@ -193,4 +208,4 @@ def get_name(ns: Namespace, *, qualified: bool = True) -> str:
     return n if qualified else n.rpartition(".")[-1]  # ty: ignore[unsound-return]
 
 
-del TYPE_CHECKING, frozenmodule, frozennamespace, a, module, namespace, suppress, r
+del TYPE_CHECKING, annotations, frozenmodule, frozennamespace, a, module, namespace, r

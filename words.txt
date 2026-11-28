@@ -25,6 +25,7 @@ signoff
 taiki
 toctree
 undoc
+unittests
 viewcode
 writethrough
 zizmor

@@ -12,9 +12,14 @@ Python implementation should work, but Python 3.15+ is required.
 
 ## Development
 
+It is preferred that you create a virtual environment in the project directory after
+cloning the repository. The virtual environment is expected to be at `.venv/`, and `uv`
+is recommended.
+
 If you want to build documentation locally, install the `docs` dependency group and run
-`make html` in the `docs` directory.
+`cd docs && make html`.
 
 Run tests with `python -m unittest`.
 
-If coverage is desired, install the `cov` extra and run `coverage run -m unittest`.
+If coverage is desired, install the `cov` extra and execute
+`coverage run --source novelty_namespace -m unittest`.

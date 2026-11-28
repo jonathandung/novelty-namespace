@@ -31,5 +31,14 @@ jobs:
         config: .cspell.json
     - run: uv audit
     - uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd
-    - run: uv run -m test_novelty_namespace
+    - run: uv sync --group cov
+    - run: coverage run --source novelty_namespace -m unittest
+    - run: coverage xml
+    - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        flags: unittests
+        name: codecov-umbrella
+        slug: jonathandung/novelty-namespace
+        verbose: true
     timeout-minutes: 2
